@@ -8,7 +8,17 @@ A DIO é uma plataforma gratuita de educação que conecta desenvolvedores a emp
 
 ## Bootcamp
 
-Geração Tech Unimed-BH - Ciência de Dados [tech_unimed_bh]
+### Jornada DevOps - AWS [devops_aws]
+
+Projeto 01
+
+Infraestrutura como Código
+- Script de criação contendo:
+  - Estrutura de Usuários
+  - Diretórios
+  - Permissões
+
+### Geração Tech Unimed-BH - Ciência de Dados [tech_unimed_bh]
 
 Projeto 01 [project_01]
 
