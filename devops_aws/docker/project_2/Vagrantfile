@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby  :
+
+servers=[
+    {
+        :hostname => "master",
+        :ip => "192.168.100.10",
+        :box => "bento/ubuntu-22.04",
+        :ram => 1024,
+        :cpu => 2
+    },
+    {
+        :hostname => "node01",
+        :ip => "192.168.100.11",
+        :box => "bento/ubuntu-22.04",
+        :ram => 1024,
+        :cpu => 2
+    },
+    {
+        :hostname => "node02",
+        :ip => "192.168.100.12",
+        :box => "bento/ubuntu-22.04",
+        :ram => 1024,
+        :cpu => 2
+    }
+]
+
+Vagrant.configure(2) do |config|
+    servers.each do |machine|
+      config.vm.define machine[:hostname] do |node|
+        node.vm.box = machine[:box]
+        node.vm.hostname = machine[:hostname]
+        node.vm.network "private_network", ip: machine[:ip]
+        if machine[:hostname] == "master"
+          node.vm.provision "docker",
+            images: ["renatocintra/docker-cluster-vagrant:1.0.0"]
+        else
+          node.vm.provision "docker"
+        end
+        node.vm.provider "virtualbox" do |vb|
+          vb.customize ["modifyvm", :id, "--memory", machine[:ram]]
+        end
+        if machine[:hostname] == "master"
+          node.vm.provision "shell", path: "master.sh"
+        else
+          node.vm.provision "shell", path: "worker.sh"
+        end        
+      end
+    end
+  end
